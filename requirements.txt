@@ -2,4 +2,4 @@ numpy
 matplotlib
 scipy
 astropy
-git+git://github.com/threeml/threeML@gbm_data_download#egg=threeML
+
