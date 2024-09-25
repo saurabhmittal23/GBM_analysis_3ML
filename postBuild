@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Download the GBM Data Tools
+wget https://fermi.gsfc.nasa.gov/ssc/data/analysis/gbm/gbm_data_tools/gbm_data_tools-1.1.1.tar.gz
+
+# Unpack the GBM Data Tools
+tar -xzvf gbm_data_tools.tar.gz
+
+# Change to the unpacked directory
+cd gbm_data_tools
+
+# Run the setup script
+python setup.py install
+
+# Return to the original directory
+cd ..
+
+# Install additional required packages
+pip install -r requirements.txt
+
+# Install GEOS C library dependencies
+sudo apt-get update
+sudo apt-get install -y libgeos-dev
+
+
+# Clean up
+rm -rf gbm_data_tools.tar.gz 
