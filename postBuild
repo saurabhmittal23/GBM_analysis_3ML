@@ -1,26 +1,52 @@
 #!/bin/bash
 
+# Add GEOS_DIR to .bashrc to persist across sessions
+echo "export GEOS_DIR=$HOME/geos" >> $HOME/.bashrc
+
+# Install GEOS if not already installed
+if [ ! -d "$GEOS_DIR" ]; then
+    echo "Installing GEOS..."
+    wget https://download.osgeo.org/geos/geos-3.9.1.tar.bz2
+    tar xjf geos-3.9.1.tar.bz2
+    cd geos-3.9.1
+    ./configure --prefix=$GEOS_DIR
+    make
+    make install
+    cd ..
+    rm -rf geos-3.9.1 geos-3.9.1.tar.bz2
+else
+    echo "GEOS already installed in $GEOS_DIR"
+fi
+
+# Add GEOS library to LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$GEOS_DIR/lib:$LD_LIBRARY_PATH
+echo "export LD_LIBRARY_PATH=$GEOS_DIR/lib:$LD_LIBRARY_PATH" >> $HOME/.bashrc
+
+pip install basemap
+
 # Download the GBM Data Tools
 wget https://fermi.gsfc.nasa.gov/ssc/data/analysis/gbm/gbm_data_tools/gbm_data_tools-1.1.1.tar.gz
 
 # Unpack the GBM Data Tools
-tar -xzvf gbm_data_tools-1.1.1.tar.gz
+#tar -xzvf gbm_data_tools-1.1.1.tar.gz
 
 # Change to the unpacked directory
-cd gbm_data_tools-1.1.1
+#cd gbm_data_tools-1.1.1
 
 # Run the setup script
-python setup.py install
+#python setup.py install
 
 # Return to the original directory
-cd ..
+#cd ..
+
+pip install gbm_data_tools-1.1.1.tar.gz[basemap]
 
 # Install additional required packages
 pip install -r requirements.txt
 
 # Install GEOS C library dependencies
-sudo apt-get update
-sudo apt-get install -y libgeos-dev
+#sudo apt-get update
+#sudo apt-get install -y libgeos-dev
 
 
 # Clean up
