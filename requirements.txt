@@ -6,3 +6,4 @@ threeML==2.4.0
 h5py==3.8.0
 gbm_drm_gen==1.2.2
 gbmgeometry==1.0.7
+numba==0.56.4
